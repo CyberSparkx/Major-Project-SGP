@@ -128,7 +128,7 @@ Output Format (JSON strictly):
         .slice(0, 4); // Ensure max 4
 
       return {
-        summary: parsedResult.summary,
+        summary: parsedResult.summary || 'Latest news on ' + topic,
         articles:
           selectedArticles.length > 0
             ? selectedArticles
