@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
       return new NextResponse(webStream, {
         headers: {
           'Content-Type': 'application/pdf',
-          'Content-Disposition': `attachment; filename="${result.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf"`,
+          'Content-Disposition': `attachment; filename="${(result?.title ?? 'research_report').replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf"`,
         },
       });
     }

@@ -4,8 +4,6 @@ import { scrapeContent } from '../../tools/scraperTool';
 import { ResearchRequest, ResearchResult } from './types';
 
 const apiKey = process.env.GOOGLE_API_KEY;
-const genAI = new GoogleGenerativeAI(apiKey || '');
-
 export async function processResearchRequest(
   request: ResearchRequest
 ): Promise<ResearchResult> {
@@ -13,11 +11,10 @@ export async function processResearchRequest(
     throw new Error('GOOGLE_API_KEY is not defined');
   }
 
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' }); // Switched to 1.5-flash for more stable quota
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
   let topic = request.query;
-  const isImageCaptioning = false;
-  const imageCaption = '';
 
   // 1. Handle Image Input
   if (request.image) {
@@ -27,7 +24,7 @@ export async function processResearchRequest(
 
     // For simplicity, let's assume the user sends the part after "base64,"
     const visionModel = genAI.getGenerativeModel({
-      model: 'gemini-3-flash-preview"',
+      model: 'gemini-3-flash-preview',
     });
 
     // Check if user specifically asked for caption or research
@@ -65,6 +62,7 @@ export async function processResearchRequest(
         .trim();
       const decision = JSON.parse(cleanJson);
 
+      console.log('Vision Decision:', decision);
       if (decision.type === 'caption') {
         return {
           title: 'Image Caption',
@@ -74,6 +72,7 @@ export async function processResearchRequest(
         };
       } else {
         topic = decision.topic;
+        console.log('Analyzed Image Topic:', topic);
       }
     } catch (e) {
       console.error('Image analysis failed', e);
@@ -93,6 +92,14 @@ export async function processResearchRequest(
   console.log(`Searching for: ${topic}`);
   const searchResults = await searchWeb(topic);
 
+  if (searchResults.length === 0) {
+    console.warn(
+      'No search results found (even via fallback). Synthesizing empty report.'
+    );
+  } else {
+    console.log(`Analyzing ${searchResults.length} sources for synthesis...`);
+  }
+
   // 3. Scrape Phase
   // Pick top 3 unique domains to avoid duplicates
   const sourcesToScrape = searchResults.slice(0, 4);
@@ -104,7 +111,7 @@ export async function processResearchRequest(
       if (content.length > 200) {
         scrapedData.push({ url: source.link, content });
       }
-    } catch (e) {
+    } catch {
       console.log(`Skipping ${source.link}`);
     }
   }
@@ -131,7 +138,9 @@ export async function processResearchRequest(
     Sources Provided:
     ${context}
     
-    Output Format: JSON only.
+    Output Format: JSON only. Do NOT provide any conversational text before or after the JSON block. If no sources were provided, use your internal knowledge to provide a general report but mention the lack of specific sources in the executive summary.
+    
+    Expected JSON Structure:
     {
       "title": "...",
       "summary": "...",
@@ -142,15 +151,15 @@ export async function processResearchRequest(
 
   const result = await model.generateContent(researchPrompt);
   const responseText = result.response.text();
-  const cleanResponse = responseText
-    .replace(/```json/g, '')
-    .replace(/```/g, '')
-    .trim();
+
+  // Improved JSON extraction: Find the first '{' and last '}' to handle conversational prefixes
+  const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+  const cleanResponse = jsonMatch ? jsonMatch[0] : responseText;
 
   try {
     const json = JSON.parse(cleanResponse);
     return {
-      title: json.title,
+      title: json.title || 'Research Report',
       summary: json.summary,
       keyPoints: json.keyPoints,
       content: json.content,
