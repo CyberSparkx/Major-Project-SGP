@@ -42,6 +42,8 @@ describe('/api/weather', () => {
     },
   };
 
+  const originalApiKey = process.env.WEATHER_API_KEY;
+
   beforeEach(() => {
     jest.clearAllMocks();
     process.env.WEATHER_API_KEY = 'test-api-key';
@@ -50,6 +52,12 @@ describe('/api/weather', () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
+    // Restore original API key
+    if (originalApiKey !== undefined) {
+      process.env.WEATHER_API_KEY = originalApiKey;
+    } else {
+      delete process.env.WEATHER_API_KEY;
+    }
   });
 
   it('should return weather data for a valid location', async () => {

@@ -13,7 +13,15 @@ export interface WeatherData {
   windSpeed: number;
   cloudiness: number;
   visibility: number;
+  /**
+   * Unix timestamp (seconds) of sunrise time for the location's date.
+   * Fetched from WeatherAPI's forecast endpoint for accuracy.
+   */
   sunrise: number;
+  /**
+   * Unix timestamp (seconds) of sunset time for the location's date.
+   * Fetched from WeatherAPI's forecast endpoint for accuracy.
+   */
   sunset: number;
 }
 
@@ -63,12 +71,37 @@ export class WeatherService {
 
       const { location: loc, current } = response.data;
 
-      // Calculate approximate sunrise/sunset (WeatherAPI doesn't provide in current endpoint)
-      const now = new Date();
-      const sunrise = new Date(now);
-      sunrise.setHours(6, 0, 0, 0);
-      const sunset = new Date(now);
-      sunset.setHours(18, 0, 0, 0);
+      // Fetch forecast data to get accurate sunrise/sunset times
+      let sunrise: Date;
+      let sunset: Date;
+      try {
+        const forecastResponse = await axios.get(
+          `${this.BASE_URL}/forecast.json`,
+          {
+            params: {
+              key: apiKey,
+              q: location,
+              days: 1,
+              aqi: 'no',
+            },
+          }
+        );
+
+        const astro = forecastResponse.data.forecast.forecastday[0].astro;
+        // Parse sunrise/sunset from WeatherAPI format (e.g., "06:30 AM")
+        sunrise = this.parseTimeToDate(astro.sunrise);
+        sunset = this.parseTimeToDate(astro.sunset);
+      } catch (error) {
+        // Fallback to approximate times if forecast call fails
+        console.warn(
+          'Failed to fetch forecast data for sunrise/sunset, using approximation'
+        );
+        const now = new Date();
+        sunrise = new Date(now);
+        sunrise.setHours(6, 0, 0, 0);
+        sunset = new Date(now);
+        sunset.setHours(18, 0, 0, 0);
+      }
 
       const weatherData: WeatherData = {
         location: loc.name,
@@ -123,5 +156,33 @@ export class WeatherService {
       }
       throw new Error('Failed to fetch weather data');
     }
+  }
+
+  /**
+   * Parses WeatherAPI time format (e.g., "06:30 AM") to a Date object.
+   * Uses today's date and assumes the time is in the location's timezone.
+   */
+  private static parseTimeToDate(timeStr: string): Date {
+    const date = new Date();
+    // WeatherAPI returns time in format "HH:MM AM/PM"
+    const timeParts = timeStr.match(/(\d{1,2}):(\d{2})\s(AM|PM)/i);
+
+    if (!timeParts) {
+      throw new Error(`Invalid time format: ${timeStr}`);
+    }
+
+    let hours = parseInt(timeParts[1], 10);
+    const minutes = parseInt(timeParts[2], 10);
+    const period = timeParts[3].toUpperCase();
+
+    // Convert to 24-hour format
+    if (period === 'PM' && hours !== 12) {
+      hours += 12;
+    } else if (period === 'AM' && hours === 12) {
+      hours = 0;
+    }
+
+    date.setHours(hours, minutes, 0, 0);
+    return date;
   }
 }
