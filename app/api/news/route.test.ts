@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import { NewsService } from '../../Server/services/news/newsService';
 
 // Mock NewsService
-jest.mock('../../Server/services/newsService');
+jest.mock('../../Server/services/news/newsService');
 
 describe('GET /api/news', () => {
   it('should return news for a valid topic', async () => {
