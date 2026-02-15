@@ -1,6 +1,6 @@
 import { GET } from './route';
 import { NextRequest } from 'next/server';
-import { NewsService } from '../../Server/services/newsService';
+import { NewsService } from '../../Server/services/news/newsService';
 
 // Mock NewsService
 jest.mock('../../Server/services/newsService');

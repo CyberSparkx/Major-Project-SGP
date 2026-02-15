@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { NewsService } from '../../Server/services/newsService';
+import { NewsService } from '../../Server/services/news/newsService';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
