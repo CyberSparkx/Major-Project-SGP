@@ -1,40 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Major-Project-SGP
 
-## Getting Started
+A robust Next.js application featuring intelligent data services including real-time weather monitoring and AI-powered news aggregation.
 
-First, run the development server:
+## 🚀 Features
+
+### 🌤️ Weather Service
+
+- **Real-time Data**: Fetches current weather conditions including temperature, humidity, wind, and visibility.
+- **Air Quality Index (AQI)**: Monitors detailed air quality metrics (PM2.5, PM10, CO, NO2, etc.) adhering to US EPA standards.
+- **Smart Forecasts**: Provides accurate sunrise and sunset times synchronized with the location's timezone.
+- **Resilient Architecture**: Built with fallback mechanisms and comprehensive error handling.
+
+### 📰 AI News Aggregator
+
+- **Smart Scraping**: Fetches latest news on specific topics from across the web.
+- **AI Summarization**: Uses Google's Gemini models to generate concise, readable summaries of complex news articles.
+- **Source Transparency**: Provides direct links to original sources for verification.
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4
+- **AI/ML**: Google Gemini (via LangChain)
+- **Data Fetching**: Axios, Cheerio
+- **Testing**: Jest, React Testing Library
+- **Code Quality**: ESLint, Prettier, Husky
+
+## 🏁 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd Major-Project-SGP
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup**
+   Create a `.env` file in the root directory with the following keys:
+
+   ```env
+   # Required for News Service
+   GOOGLE_API_KEY=your_google_gemini_key
+
+   # Required for Weather Service
+   WEATHER_API_KEY=your_weatherapi_com_key
+   ```
+
+### Development
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Testing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Run the test suite to ensure all services are functioning correctly:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm test
+```
 
-## Learn More
+### Linting & Formatting
 
-To learn more about Next.js, take a look at the following resources:
+Check for code quality issues:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run lint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Format code automatically:
 
-## Deploy on Vercel
+```bash
+npm run format
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📁 Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+├── app/
+│   ├── api/            # API Route Handlers
+│   ├── Server/         # Business Logic & Services
+│   └── ...
+├── public/             # Static Assets
+├── .husky/             # Git Hooks
+└── ...
+```
 
-# Major-Project-SGP
+## 🤝 Contributing
 
-# Major-Project-SGP
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
