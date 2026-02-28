@@ -11,7 +11,9 @@
     "format": "prettier --write .",
     "prepare": "husky",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "postinstall": "cd iot-camera && npm install",
+    "install-all": "npm install && cd iot-camera && npm install"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
