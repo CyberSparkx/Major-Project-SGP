@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 export default function Dashboard() {
   const pathname = usePathname();
   const [clock, setClock] = useState("");
-  const [model, setModel] = useState("gemini-1.5-flash");
+  const [model, setModel] = useState("gemini-2.5-flash");
   const [mode, setMode] = useState("text");
 
   useEffect(() => {
@@ -21,13 +21,13 @@ export default function Dashboard() {
 
   return (
     <div
-     className="flex text-white"
+      className="flex text-white"
       style={{
         background:
           "linear-gradient(to bottom right, #011433, #04080f)",
       }}
     >
-    
+
 
 
       {/* MAIN */}
@@ -58,21 +58,19 @@ export default function Dashboard() {
                   <div className="flex bg-white/20 rounded-full">
                     <button
                       onClick={() => setMode("text")}
-                      className={`px-4 py-1 rounded-full ${
-                        mode === "text"
-                          ? "bg-purple-600"
-                          : "opacity-60"
-                      }`}
+                      className={`px-4 py-1 rounded-full ${mode === "text"
+                        ? "bg-purple-600"
+                        : "opacity-60"
+                        }`}
                     >
                       Text
                     </button>
                     <button
                       onClick={() => setMode("vision")}
-                      className={`px-4 py-1 rounded-full ${
-                        mode === "vision"
-                          ? "bg-purple-600"
-                          : "opacity-60"
-                      }`}
+                      className={`px-4 py-1 rounded-full ${mode === "vision"
+                        ? "bg-purple-600"
+                        : "opacity-60"
+                        }`}
                     >
                       Vision
                     </button>
@@ -85,8 +83,8 @@ export default function Dashboard() {
                     }
                     className="bg-white/20 px-3 py-1 rounded-lg"
                   >
-                    <option>gemini-1.5-flash</option>
-                    <option>gemini-1.5-pro</option>
+                    <option>gemini-2.5-flash</option>
+                    <option>gemini-2.5-pro</option>
                     <option>gemini-vision</option>
                   </select>
                 </div>

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently --names \"next,ws\" --prefix-colors \"cyan,magenta\" \"next dev\" \"cd iot-camera && npx ts-node wsServer.ts\"",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -19,10 +19,12 @@
     "@react-pdf/renderer": "^4.3.2",
     "axios": "^1.13.5",
     "cheerio": "^1.2.0",
+    "cloudinary": "^2.9.0",
     "langchain": "^1.2.24",
     "next": "16.1.6",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "ws": "^8.19.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -32,6 +34,8 @@
     "@types/node": "^20.19.33",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ws": "^8.18.1",
+    "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "eslint-config-prettier": "^10.1.8",
