@@ -1,0 +1,21 @@
+{
+  "name": "iot-camera-ws-server",
+  "version": "1.0.0",
+  "description": "Standalone WebSocket server for IoT camera feature",
+  "main": "wsServer.ts",
+  "scripts": {
+    "start": "ts-node wsServer.ts",
+    "dev": "ts-node-dev --respawn wsServer.ts"
+  },
+  "dependencies": {
+    "cloudinary": "^2.5.1",
+    "dotenv": "^16.4.5",
+    "ws": "^8.18.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.33",
+    "@types/ws": "^8.5.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0"
+  }
+}
