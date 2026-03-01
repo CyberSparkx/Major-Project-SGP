@@ -11,11 +11,12 @@ A robust Next.js application featuring intelligent data services including real-
 - **Smart Forecasts**: Provides accurate sunrise and sunset times synchronized with the location's timezone.
 - **Resilient Architecture**: Built with fallback mechanisms and comprehensive error handling.
 
-### 📰 AI News Aggregator
+### 📷 IoT Camera Service
 
-- **Smart Scraping**: Fetches latest news on specific topics from across the web.
-- **AI Summarization**: Uses Google's Gemini models to generate concise, readable summaries of complex news articles.
-- **Source Transparency**: Provides direct links to original sources for verification.
+- **Real-time Monitoring**: Standalone WebSocket server for live camera interactions.
+- **AI Vision**: Analyzes camera feeds using Google Gemini to identify objects, activities, or anomalies.
+- **Cloud Storage**: Securely uploads and manages camera captures via Cloudinary.
+- **Command & Control**: Remote command execution for IoT devices with real-time feedback.
 
 ## 🛠️ Tech Stack
 
@@ -24,6 +25,8 @@ A robust Next.js application featuring intelligent data services including real-
 - **Styling**: Tailwind CSS 4
 - **AI/ML**: Google Gemini (via LangChain)
 - **Data Fetching**: Axios, Cheerio
+- **Real-time**: WebSockets (ws)
+- **Media Management**: Cloudinary
 - **Testing**: Jest, React Testing Library
 - **Code Quality**: ESLint, Prettier, Husky
 
@@ -43,26 +46,34 @@ A robust Next.js application featuring intelligent data services including real-
    cd Major-Project-SGP
    ```
 
-2. **Install dependencies**
+2. **Install all dependencies**
+   This command installs dependencies for both the main app and the IoT camera module:
 
    ```bash
    npm install
    ```
 
+   _Note: If you want to install them manually, you can run `npm run install-all`._
+
 3. **Environment Setup**
    Create a `.env` file in the root directory with the following keys:
 
    ```env
-   # Required for News Service
+   # Required for News & Vision Service
    GOOGLE_API_KEY=your_google_gemini_key
 
    # Required for Weather Service
    WEATHER_API_KEY=your_weatherapi_com_key
+
+   # Required for IoT Camera Service
+   CLOUDINARY_CLOUD_NAME=your_cloud_name
+   CLOUDINARY_API_KEY=your_api_key
+   CLOUDINARY_API_SECRET=your_api_secret
    ```
 
 ### Development
 
-Run the development server:
+Run the development server (starts both Next.js and the IoT WebSocket server):
 
 ```bash
 npm run dev
@@ -70,7 +81,7 @@ npm run dev
 
 ### Testing
 
-Run the test suite to ensure all services are functioning correctly:
+Run the test suite:
 
 ```bash
 npm test
@@ -93,10 +104,8 @@ npm run format
 ## 📁 Project Structure
 
 ```
-├── app/
-│   ├── api/            # API Route Handlers
-│   ├── Server/         # Business Logic & Services
-│   └── ...
+├── app/                # Next.js App Router (Frontend + API)
+├── iot-camera/         # Standalone IoT WebSocket Server
 ├── public/             # Static Assets
 ├── .husky/             # Git Hooks
 └── ...
