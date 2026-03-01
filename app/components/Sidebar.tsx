@@ -11,7 +11,7 @@ export default function Sidebar() {
     { href: '/chat', icon: '💬', label: 'Chat' },
     { href: '/news', icon: '📰', label: 'News' },
     { href: '/social', icon: '📣', label: 'Social' },
-    { href: '/social', icon: '☀', label: 'Temparature' },
+    { href: '/temparature', icon: '☀', label: 'Temparature' },
   ];
 
   return (
