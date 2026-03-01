@@ -7,6 +7,7 @@ This guide explains how to manually test the IoT camera feature using Postman.
 1. **Cloudinary**: Ensure `CLOUDINARY_CLOUD_NAME`, `API_KEY`, and `API_SECRET` are set in your `.env`.
 2. **Start Servers**: Run `npm run dev` from the project root. This starts both the Next.js app (3000) and the WebSocket server (3001).
 3. **Open Browser**: Go to `http://localhost:3000/iot-camera` to see the live UI.
+   - **Note**: If accessing via IP (e.g., `http://192.168.24.1:3000`), the browser will automatically try to connect to the WebSocket on the same IP. Ensure your `.env` has `NEXT_PUBLIC_WS_URL` set correctly if you need to override this behavior.
 
 ---
 
