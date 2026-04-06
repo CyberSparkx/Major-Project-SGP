@@ -1,14 +1,13 @@
-"use client";
+'use client';
 
-import Sidebar from "../components/Sidebar";
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 export default function SocialPage() {
-  const [clock, setClock] = useState("");
-  const [platform, setPlatform] = useState("Instagram");
-  const [inputText, setInputText] = useState("");
+  const [clock, setClock] = useState('');
+  const [platform, setPlatform] = useState('Instagram');
+  const [inputText, setInputText] = useState('');
   const [generatedPost, setGeneratedPost] = useState(
-    "Your generated post will appear here"
+    'Your generated post will appear here'
   );
 
   useEffect(() => {
@@ -20,7 +19,7 @@ export default function SocialPage() {
 
   const generatePost = () => {
     if (!inputText.trim()) {
-      alert("Add a description");
+      alert('Add a description');
       return;
     }
 
@@ -30,50 +29,38 @@ export default function SocialPage() {
 
   const copyPost = () => {
     navigator.clipboard.writeText(generatedPost);
-    alert("Copied!");
+    alert('Copied!');
   };
 
   return (
     <div className="min-h-screen flex text-white bg-gradient-to-br from-[#011433] to-[#04080f]">
       <main className="flex-1 p-10">
-        
         {/* HEADER */}
         <div className="flex justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold">
-              Social Media Post
-            </h1>
-            <p className="opacity-70">
-              Create posts for multiple platforms
-            </p>
+            <h1 className="text-3xl font-bold">Social Media Post</h1>
+            <p className="opacity-70">Create posts for multiple platforms</p>
           </div>
-          <div className="text-sm opacity-70">
-            {clock}
-          </div>
+          <div className="text-sm opacity-70">{clock}</div>
         </div>
 
         {/* MAIN CARD */}
         <div className="bg-white/10 p-6 rounded-2xl w-full max-w-5xl shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
-          
           {/* Platform */}
-          <label className="text-sm opacity-70">
-            Platform
-          </label>
+          <label className="text-sm opacity-70">Platform</label>
 
           <select
-  value={platform}
-  onChange={(e) => setPlatform(e.target.value)}
-  className="w-full mt-2 mb-4 px-4 py-3 rounded-xl bg-white/20 text-white outline-none appearance-none"
->
-  <option className="bg-[#1e293b] text-white">Instagram</option>
-  <option className="bg-[#1e293b] text-white">LinkedIn</option>
-  <option className="bg-[#1e293b] text-white">Twitter</option>
-</select>
+            value={platform}
+            onChange={(e) => setPlatform(e.target.value)}
+            className="w-full mt-2 mb-4 px-4 py-3 rounded-xl bg-white/20 text-white outline-none appearance-none"
+          >
+            <option className="bg-[#1e293b] text-white">Instagram</option>
+            <option className="bg-[#1e293b] text-white">LinkedIn</option>
+            <option className="bg-[#1e293b] text-white">Twitter</option>
+          </select>
 
           {/* Textarea */}
-          <label className="text-sm opacity-70">
-            Write your idea
-          </label>
+          <label className="text-sm opacity-70">Write your idea</label>
 
           <textarea
             value={inputText}
@@ -98,23 +85,16 @@ export default function SocialPage() {
               Copy
             </button>
 
-            <div className="ml-auto text-sm opacity-70">
-              {inputText.length}
-            </div>
+            <div className="ml-auto text-sm opacity-70">{inputText.length}</div>
           </div>
 
           {/* Preview */}
           <div className="bg-white/20 mt-6 p-6 rounded-xl">
-            <div className="opacity-70 text-sm">
-              Preview
-            </div>
+            <div className="opacity-70 text-sm">Preview</div>
 
-            <div className="mt-2 font-semibold">
-              {generatedPost}
-            </div>
+            <div className="mt-2 font-semibold">{generatedPost}</div>
           </div>
         </div>
-
       </main>
     </div>
   );
