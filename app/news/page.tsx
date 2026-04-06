@@ -205,6 +205,7 @@ export default function NewsPage() {
             { name: 'Research', href: 'chat' },
             { name: 'News', href: 'news' },
             { name: 'Weather', href: 'temparature' },
+            { name: 'Smart Vision', href: 'iot-camera' },
           ].map((item) => (
             <a
               key={item.name}

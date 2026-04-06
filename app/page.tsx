@@ -11,6 +11,7 @@ export default function Home() {
     { name: 'Research', href: 'chat' },
     { name: 'News', href: 'news' },
     { name: 'Weather', href: 'temparature' },
+    { name: 'Smart Vision', href: 'iot-camera' },
   ];
 
   const fadeInUp: Variants = {
@@ -109,7 +110,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-6xl md:text-8xl font-black tracking-tight leading-[0.9]"
             >
-              Meet your <br />
+              Meet our <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-500 animate-gradient-x">
                 Smart AI Bot
               </span>

@@ -189,6 +189,7 @@ export default function WeatherDashboard() {
             { name: 'Research', href: '/chat' },
             { name: 'News', href: '/news' },
             { name: 'Weather', href: '/temparature' },
+            { name: 'Smart Vision', href: '/iot-camera' },
           ].map((item) => (
             <Link
               key={item.name}

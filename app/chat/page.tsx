@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+
 import { motion, AnimatePresence } from 'framer-motion';
+
 
 // --- FLOWING MESH GRADIENT COMPONENT ---
 const MeshBackground = ({ loading }: { loading?: boolean }) => {
@@ -237,6 +239,7 @@ export default function ResearchPage() {
             { name: 'Research', href: 'chat' },
             { name: 'News', href: 'news' },
             { name: 'Weather', href: 'temparature' },
+            { name: 'Smart Vision', href: 'iot-camera' }
           ].map((item) => (
             <a
               key={item.name}
