@@ -13,8 +13,17 @@ import { iotState, setFlag } from '@/app/Server/iot/flagStore';
  *   int code = http.GET();
  *   String body = http.getString(); // parse JSON flag
  */
-export async function GET(): Promise<NextResponse> {
-    return NextResponse.json({ flag: iotState.flag });
+export const dynamic = 'force-dynamic';
+
+export async function GET(req: NextRequest): Promise<NextResponse> {
+  return NextResponse.json(
+    { flag: iotState.flag },
+    {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+      },
+    }
+  );
 }
 
 /**
@@ -25,26 +34,24 @@ export async function GET(): Promise<NextResponse> {
  * Returns: { flag: 1, message: "Capture requested" }
  */
 export async function POST(req: NextRequest): Promise<NextResponse> {
-    // Validate content-type for browser calls (optional body)
-    const body = await req
-        .json()
-        .catch(() => ({})) as Record<string, unknown>;
+  // Validate content-type for browser calls (optional body)
+  const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
 
-    // Only set flag if currently idle (prevent double-press)
-    if (iotState.flag === 1) {
-        return NextResponse.json(
-            { flag: 1, message: 'Capture already in progress' },
-            { status: 409 }
-        );
-    }
+  // Only set flag if currently idle (prevent double-press)
+  if (iotState.flag === 1) {
+    return NextResponse.json(
+      { flag: 1, message: 'Capture already in progress' },
+      { status: 409 }
+    );
+  }
 
-    const action = (body.action as string) ?? 'capture';
-    if (action !== 'capture') {
-        return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
-    }
+  const action = (body.action as string) ?? 'capture';
+  if (action !== 'capture') {
+    return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
+  }
 
-    setFlag(1);
-    console.log('[IoT] Flag set to 1 — capture requested');
+  setFlag(1);
+  console.log('[IoT] Flag set to 1 — capture requested');
 
-    return NextResponse.json({ flag: 1, message: 'Capture requested' });
+  return NextResponse.json({ flag: 1, message: 'Capture requested' });
 }
